@@ -49,7 +49,6 @@ finally:
     cs.close()
 ctx.close()
 ```
-then save it as **validate.py**.
 
 If you not sure about which **account_name** to use like how I was, you can get **account_name** from your Snowflake login URL.
 
