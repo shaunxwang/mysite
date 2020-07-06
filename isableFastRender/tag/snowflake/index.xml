@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Snowflake | Shaun Wang</title>
+    <link>//localhost:1313/tag/snowflake/</link>
+      <atom:link href="//localhost:1313/tag/snowflake/index.xml" rel="self" type="application/rss+xml" />
+    <description>Snowflake</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 02 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>//localhost:1313/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Snowflake</title>
+      <link>//localhost:1313/tag/snowflake/</link>
+    </image>
+    
+    <item>
+      <title>How to connect to Snowflake and pull data by using Python</title>
+      <link>//localhost:1313/post/post_001_snowpy/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/post/post_001_snowpy/</guid>
+      <description>&lt;h1 id=&#34;how-to-connect-to-snowflake-and-pull-data-by-using-python&#34;&gt;How to connect to Snowflake and pull data by using Python&lt;/h1&gt;
+&lt;p&gt;This is a quick guide on how to use my &lt;strong&gt;Python&lt;/strong&gt; module to streamline your data workflow with Snowflake and Pandas, making data extraction easier.&lt;/p&gt;
+&lt;p&gt;The module contains two functions. One allows you to pull data from Snowflake and stores them in a csv file or pandas.DataFrame. The second function allows you to pull data from Snowflake and stores them in a feather file.&lt;/p&gt;
+&lt;h2 id=&#34;step-1---install-required-packages&#34;&gt;Step 1 - &lt;strong&gt;Install required packages&lt;/strong&gt;&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install snowflake-connector-python&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;pandas&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, verify the following &lt;strong&gt;Python&lt;/strong&gt; script to check if it&amp;rsquo;s installed correctly:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; snowflake.connector
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Gets the version&lt;/span&gt;
+ctx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; snowflake&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connector&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect(
+    user&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;your_user_name&amp;gt;&amp;#39;&lt;/span&gt;,
+    password&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;your_password&amp;gt;&amp;#39;&lt;/span&gt;,
+    account&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;lt;your_account_name&amp;gt;&amp;#39;&lt;/span&gt;
+    )
+cs &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ctx&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cursor()
+&lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+    cs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;execute(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SELECT current_version()&amp;#34;&lt;/span&gt;)
+    one_row &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fetchone()
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(one_row[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;])
+&lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt;:
+    cs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
+ctx&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;then save it as &lt;strong&gt;validate.py&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;If you not sure about which &lt;strong&gt;account_name&lt;/strong&gt; to use like how I was, you can get &lt;strong&gt;account_name&lt;/strong&gt; from your Snowflake login URL.&lt;/p&gt;
+&lt;p&gt;If you login URL looks like the link below:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://&amp;lt;&amp;quot;company_name&amp;quot;&amp;gt;.&amp;lt;&amp;quot;region&amp;quot;&amp;gt;.snowflakecomputing.com/console/login#/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;then&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;&amp;quot;company_name&amp;quot;&amp;gt;.&amp;lt;&amp;quot;region&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is your &lt;strong&gt;account_name&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Run the &lt;strong&gt;Python&lt;/strong&gt; script once you have entered &lt;strong&gt;user_name&lt;/strong&gt;, &lt;strong&gt;password&lt;/strong&gt; and &lt;strong&gt;account_name&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Successful run of &lt;strong&gt;Python&lt;/strong&gt; script above shoud look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;user@home:~$ python3 validate.py
+4.22.3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It&amp;rsquo;s ok if your Snowflake version is different than mine.&lt;/p&gt;
+&lt;p&gt;One down one to go:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install snowflake-sqlalchemy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Complete list of required packages can be find in the 
+&lt;a href=&#34;https://github.com/shaunxwang/snowpy/blob/master/requirements.txt&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;requirements.txt&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can also run:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install -r requirements.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;to save some time.&lt;/p&gt;
+&lt;h2 id=&#34;step-2---download-the-snowpypy-module&#34;&gt;Step 2 - &lt;strong&gt;Download the snowpy.py module&lt;/strong&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Download&lt;/strong&gt;  &lt;br&gt;
+
+  &lt;i class=&#34;fas fa-file-download  pr-1 fa-fw&#34;&gt;&lt;/i&gt;
+&lt;a href=&#34;https://github.com/shaunxwang/snowpy/blob/master/snowpy.py&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Download snowpy.py&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;p&gt;
+  &lt;i class=&#34;fab fa-github  pr-1 fa-fw&#34;&gt;&lt;/i&gt;
+&lt;a href=&#34;https://github.com/shaunxwang/snowpy.git&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Clone github repository&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;p&gt;
+  &lt;i class=&#34;fas fa-file-archive  pr-1 fa-fw&#34;&gt;&lt;/i&gt;
+&lt;a href=&#34;https://github.com/shaunxwang/snowpy/archive/master.zip&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Download github repository as a zip file&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Save in folder&lt;/strong&gt;&lt;br&gt;
+Save the downoaded &lt;strong&gt;snowpy.py&lt;/strong&gt; file in our working folder.&lt;/p&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;p&gt;Use the downloaded repository as your working folder, it comes with a &lt;strong&gt;Pyhon virtual environment&lt;/strong&gt; with all the required packages which are listed in &lt;strong&gt;requirement.txt&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you chose to clone the repository or download it as a zip file, you should have file/folder tree looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Your
+working 
+folder
+    |
+    ├── login.txt
+    ├── README.md
+    ├── requirements.txt
+    ├── snowpy
+    │   ├── bin
+    │   ├── include
+    │   ├── lib
+    │   ├── lib64 -&amp;gt; lib
+    │   ├── pyvenv.cfg
+    │   └── share
+    ├── snowpy.py
+    ├── SQLs
+    │   └── my_sql.sql
+    └── validate.py
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;step-3---create-a-folder-for-sql-queries-and-logintxt&#34;&gt;Step 3 - &lt;strong&gt;Create a folder for SQL queries and login.txt&lt;/strong&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SQLs folder&lt;/strong&gt;&lt;br&gt;
+Create a folder called &lt;strong&gt;SQLs&lt;/strong&gt; to store SQL queries&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Your
+working 
+folder
+ |
+ ├── login.txt
+ ├── README.md
+ ├── requirements.txt
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&amp;gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── &#39;SQLs&#39; &amp;lt;&amp;lt;----------------------------&amp;lt;
+ │   └── my_sql.sql
+ └── validate.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;login.txt&lt;/strong&gt;
+Create a text file called &lt;strong&gt;login.txt&lt;/strong&gt; which contains three lines of text:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;your_user_name (Snowflake)
+your_user_password (Snowflake)
+your_account_name (Snowflake)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;change those lines to fit your login details of Snowfake&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Your
+working 
+folder
+ |
+ ├── &#39;login.txt&#39; &amp;lt;&amp;lt;----------------------------&amp;lt;
+ ├── README.md
+ ├── requirements.txt
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&amp;gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── my_sql.sql
+ └── validate.py
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then set file permissions of &lt;strong&gt;login.txt&lt;/strong&gt; so that &lt;em&gt;root&lt;/em&gt; or &lt;em&gt;group&lt;/em&gt; can not access it, i.e. only you can access and modify it.&lt;/p&gt;
+&lt;p&gt;If you are using a linux machine like I am, you can type the following in terminal:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;chmod go-rwx------ login.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;or&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;chmod &lt;span style=&#34;color:#ae81ff&#34;&gt;600&lt;/span&gt; login.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Click 
+&lt;a href=&#34;https://help.ubuntu.com/community/FilePermissions&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt; for detailed explanation of file permissions in linux machines&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s also a good idea to add &lt;strong&gt;login.txt&lt;/strong&gt; to &lt;strong&gt;.gitignore&lt;/strong&gt; file so that you don&amp;rsquo;t accidentially commit and push &lt;strong&gt;login.txt&lt;/strong&gt; with your real password stored in it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;step-4---how-to-use-snowpy-in-jupyter-notebook&#34;&gt;Step 4 - &lt;strong&gt;How to use &lt;strong&gt;snowpy&lt;/strong&gt; in Jupyter notebook&lt;/strong&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Install Jupyter notebook&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install notebook
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Load Jupyter notebook&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Type the following in terminal&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;jupyter notebook
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Messages below will then show up in terminal, it indicates that Jupyter local server is running:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;I 22:40:44.894 NotebookApp&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Serving notebooks from local directory: /home/user/working_folder
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;I 22:40:44.895 NotebookApp&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; The Jupyter Notebook is running at:
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;I 22:40:44.895 NotebookApp&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; http://localhost:8888/?token&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0cf9066b55adf4f683097cef877f696b7ad0f11234567890
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;I 22:40:44.895 NotebookApp&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;  or http://127.0.0.1:8888/?token&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0cf9066b55adf4f683097cef877f696b7ad0f11234567890
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;I 22:40:44.895 NotebookApp&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Use Control-C to stop this server and shut down all kernels &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;twice to skip confirmation&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;C 22:40:45.016 NotebookApp&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; 
+    
+ To access the notebook, open this file in a browser:
+     file:///home/user/.local/share/jupyter/runtime/nbserver-88888-open.html
+ Or copy and paste one of these URLs:
+     http://localhost:8888/?token&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0cf9066b55adf4f683097cef877f696b7ad0f11234567890
+     or http://127.0.0.1:8888/?token&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0cf9066b55adf4f683097cef877f696b7ad0f11234567890
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Your
+working 
+folder
+ |
+ ├── login.txt
+ ├── README.md
+ ├── requirements.txt
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&amp;gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── my_sql.sql
+ ├── &#39;test.ipynb&#39; &amp;lt;&amp;lt;----------------------------&amp;lt;
+ └── validate.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Create a test jupyter notebook&lt;/strong&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-a&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_001_hu294daab3ca74cd9d77cc43466b143f63_45526_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;(A)&#34;&gt;
+
+
+  &lt;img data-src=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_001_hu294daab3ca74cd9d77cc43466b143f63_45526_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;766&#34; height=&#34;397&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    (A)
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-b&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_002_hucf120c3de191f194dea523bae7415135_49016_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;(B)&#34;&gt;
+
+
+  &lt;img data-src=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_002_hucf120c3de191f194dea523bae7415135_49016_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;771&#34; height=&#34;422&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    (B)
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-c&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_003_hu5c8c124ff00e14cca41f674dc880da9b_25578_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;(C)&#34;&gt;
+
+
+  &lt;img data-src=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_003_hu5c8c124ff00e14cca41f674dc880da9b_25578_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;765&#34; height=&#34;281&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    (C)
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-d&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_004_hu77b84dcb0141a5faa12bbdc2dd7bc996_72768_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;(D)&#34;&gt;
+
+
+  &lt;img data-src=&#34;//localhost:1313/post/post_001_snowpy/img/jupyter_004_hu77b84dcb0141a5faa12bbdc2dd7bc996_72768_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;764&#34; height=&#34;684&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    (D)
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+See below for the test SQL query, &lt;strong&gt;my_sql.sql&lt;/strong&gt; which is located in &lt;strong&gt;/SQLs/my_sql.sql&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt;
+     current_version() &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; CURRENT_VERSION,
+     &lt;span style=&#34;color:#66d9ef&#34;&gt;current_timestamp&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; CURRENT_DATE_TIME,
+     &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Well Done!&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; MESSAGE;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;Your
+working 
+folder
+ |
+ ├── login.txt
+ ├── README.md
+ ├── requirements.txt
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&amp;gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── &#39;my_sql.sql&#39; &amp;lt;&amp;lt;----------------------------&amp;lt;
+ ├── test.ipynb
+ └── validate.py
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you intend to use the &lt;strong&gt;second function, run_SQL_to_feather&lt;/strong&gt; to store your data on disk in feather format, you need to install an additional package:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install feather-format
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Feather uses the 
+&lt;a href=&#34;https://arrow.apache.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Apache Arrow&lt;/a&gt; columnar memory specification to represent binary data on disk. This makes read and write operations very fast.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
