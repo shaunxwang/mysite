@@ -29,7 +29,8 @@ The module contains two functions. One allows you to pull data from Snowflake an
 ```bash
 pip install snowflake-connector-python[pandas]
 ```
-Then, verify the following **Python** script to check if it's installed correctly:
+Then, save the following **Python** script as **validate.py**.
+Run it in terminal to check if the package is installed correctly:
 ```python
 import snowflake.connector
 
