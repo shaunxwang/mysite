@@ -266,7 +266,7 @@ import numpy as np
 ### Fetch data from Snowflake into a file on disk in **feather** format
 Click [here](https://www.shaunwang.me/post/post_001_snowpy/) for a quick guide on how to pull data from snowflake by using Python
 
-The following cell are commented out because I only needed to fun it once and I have done that
+The following cell are commented out because I only needed to run it once and I have done that
 
 
 ```python
@@ -323,7 +323,7 @@ pg0.info(verbose=True, null_counts=True)
 
 
 ### Data transformation
-The following cell are commented out because I only needed to fun it once and I have done that
+The following cell are commented out because I only needed to run it once and I have done that
 
 
 ```python
