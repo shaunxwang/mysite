@@ -1,0 +1,2211 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pandas | Shaun Wang</title>
+    <link>//localhost:1313/tag/pandas/</link>
+      <atom:link href="//localhost:1313/tag/pandas/index.xml" rel="self" type="application/rss+xml" />
+    <description>Pandas</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 08 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>//localhost:1313/images/logo_hu02d4214244b58f4d9dfd2bf839db7a24_8568_300x300_fit_lanczos_2.png</url>
+      <title>Pandas</title>
+      <link>//localhost:1313/tag/pandas/</link>
+    </image>
+    
+    <item>
+      <title>Digital customer journey - a practical example</title>
+      <link>//localhost:1313/post/post_002_dig_cust_journey/</link>
+      <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/post/post_002_dig_cust_journey/</guid>
+      <description>&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#the-tools&#34;&gt;The Tools&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#the-data&#34;&gt;The Data&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#the-challenge&#34;&gt;The Challenge&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#a-python-solution-to-the-challenge&#34;&gt;A Python solution to the challenge&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#import-packages&#34;&gt;Import packages&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#fetch-data-from-snowflake-into-a-file-on-disk-in-feather-format&#34;&gt;Fetch data from Snowflake into a file on disk in &lt;strong&gt;feather&lt;/strong&gt; format&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#load-data-of-page-viewed-from-feather-file-into-memory-and-print-a-summary&#34;&gt;Load data of page viewed from feather file into memory and print a summary&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#data-transformation&#34;&gt;Data transformation&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#getting-a-smaller-sample-of-pages-viewed-slicing-on-date-of-visit-to-be-between-2019-dec-1-and-2020-jan-31&#34;&gt;Getting a smaller sample of pages viewed, slicing on date of visit, to be between 2019-Dec-1 and 2020-Jan-31&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#getting-subset-of-data-from-the-sample-in-which-number-of-pages-viewed-per-each-visit-is-between-20-and-60&#34;&gt;Getting subset of data from the sample in which number of pages viewed per each visit is between 20 and 60&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#printing-a-summary-of-the-final-sample-which-we-will-work-on&#34;&gt;Printing a summary of the final sample which we will work on&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#create-customer-journey&#34;&gt;Create customer journey&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#the-customer-journey&#34;&gt;The Customer Journey&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#path-map&#34;&gt;Path Map&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;We are increasingly replying on digital devices for our daily lives, the convenience we gain from using them has undoubtedly revolutionised our lifestyles but at the same time data collection has also evolved with it.&lt;/p&gt;
+&lt;p&gt;Digital footprint at every step is tracked and data is collected for analysis. There are many types of data wrangling we can do with digital tracking data:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;On the user level:
+&lt;ul&gt;
+&lt;li&gt;Number of visitors to a website&lt;/li&gt;
+&lt;li&gt;User behavior such as click rate and bounce rate&lt;/li&gt;
+&lt;li&gt;Conversions&lt;/li&gt;
+&lt;li&gt;Customer journeys&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;On the website level
+&lt;ul&gt;
+&lt;li&gt;Visibility&lt;/li&gt;
+&lt;li&gt;OnPage Factors&lt;/li&gt;
+&lt;li&gt;Backlink analysis and monitoring&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Shopping and e-commerce level:
+&lt;ul&gt;
+&lt;li&gt;Conversion-Tracking&lt;/li&gt;
+&lt;li&gt;Tracking and monitoring in email campaigns&lt;/li&gt;
+&lt;li&gt;Cross-selling campaigns&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Online-advertising:
+&lt;ul&gt;
+&lt;li&gt;Campaign tracking&lt;/li&gt;
+&lt;li&gt;Tracking affiliate links&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-tools&#34;&gt;The Tools&lt;/h2&gt;
+&lt;p&gt;What interests us here is &lt;strong&gt;customer journey&lt;/strong&gt;, more specifically a visitor&amp;rsquo;s journey in each visit to an app or website, derived from pages viewed during the visit.&lt;/p&gt;
+&lt;p&gt;The tracking/tagging platform used here is not &lt;strong&gt;Google Analytics&lt;/strong&gt;, that&amp;rsquo;s right, some competition in the field is always welcomed. Here, I will featured the new kid on the block, 
+&lt;a href=&#34;https://developers.atinternet-solutions.com/home/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;AT Internet&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;AT Internet&amp;rsquo;s tracker is  initialised done via &lt;strong&gt;JavaScript&lt;/strong&gt; methods which is inserted into &lt;code&gt;html&lt;/code&gt; like so:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt;&amp;gt;
+  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&amp;gt;
+    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;meta&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;charset&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;UTF-8&amp;#34;&lt;/span&gt;&amp;gt;
+    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;My Page&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;
+    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;src&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;smarttag.js&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+  &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
+  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
+    ...
+    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;text/javascript&amp;#34;&lt;/span&gt;&amp;gt;      
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tag&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ATInternet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Tracker&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Tag&lt;/span&gt;();
+    &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;&amp;gt;
+  &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
+&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And the following shows an example of a &lt;strong&gt;complete tagging&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tag&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ATInternet&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Tracker&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Tag&lt;/span&gt;();
+&lt;span style=&#34;color:#a6e22e&#34;&gt;tag&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;page&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;send&lt;/span&gt;({
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;pageName&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;chapter1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;chap1&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;chapter2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;chap2&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;chapter3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;chap3&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;level2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;123&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;customObject&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;param1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;val1&amp;#39;&lt;/span&gt;,
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;param2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;val2&amp;#39;&lt;/span&gt;
+    },
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;event&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;anEvent&lt;/span&gt;,
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;callback&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(){}
+});
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;the-data&#34;&gt;The Data&lt;/h2&gt;
+&lt;p&gt;There are a lot of data collected from a tag like the above, but what interests us here are the following columns:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Visit ID of each visit&lt;/li&gt;
+&lt;li&gt;Page ID of each page viewed&lt;/li&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://developers.atinternet-solutions.com/android-en/users-android-en/user-id-android-en/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;SDK ID&lt;/a&gt; of each visitor&lt;/li&gt;
+&lt;li&gt;Chapter 1 of each page viewed&lt;/li&gt;
+&lt;li&gt;Chapter 2 of each page viewed&lt;/li&gt;
+&lt;li&gt;Chapter 3 of each page viewed&lt;/li&gt;
+&lt;li&gt;D_Page a.k.a. &amp;ldquo;hit&amp;rdquo;
+&lt;ul&gt;
+&lt;li&gt;Usually in the format of: &amp;ldquo;chapter1::chapter2::chapter3::page_name&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Event date/time of a page being viewed&lt;/li&gt;
+&lt;li&gt;Start date/time of a visit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Yes, it&amp;rsquo;s very confusing!&lt;/p&gt;
+&lt;p&gt;You may ask what &lt;strong&gt;chapter 1&lt;/strong&gt;, &lt;strong&gt;chapter 2&lt;/strong&gt; and &lt;strong&gt;chapter 3&lt;/strong&gt; are?&lt;/p&gt;
+&lt;p&gt;A quick look at &lt;strong&gt;chapter 1&lt;/strong&gt; for platform of &lt;strong&gt;website&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PLATFORM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Web&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;] \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts() \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Num. of pages&amp;#39;&lt;/span&gt;) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;yields:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;( Top 12 )&lt;/th&gt;
+&lt;th&gt;Num. of pages&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;email request&lt;/td&gt;
+&lt;td&gt;13856&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;login&lt;/td&gt;
+&lt;td&gt;5631&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;registration&lt;/td&gt;
+&lt;td&gt;4819&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;home&lt;/td&gt;
+&lt;td&gt;4703&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;error&lt;/td&gt;
+&lt;td&gt;4345&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cities&lt;/td&gt;
+&lt;td&gt;2539&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;2451&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;offer&lt;/td&gt;
+&lt;td&gt;2359&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;requests&lt;/td&gt;
+&lt;td&gt;1927&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;booknow&lt;/td&gt;
+&lt;td&gt;1263&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;concierge chat request&lt;/td&gt;
+&lt;td&gt;975&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;profile&lt;/td&gt;
+&lt;td&gt;795&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;I agree, no, it doesn&amp;rsquo;t explain anything but at least we know there is a &lt;strong&gt;chapter 1&lt;/strong&gt; called &lt;strong&gt;benefits&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s say that the marketing/partnership department wants to know how the &lt;strong&gt;benefits&lt;/strong&gt; to our customers are doing:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PLATFORM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Web&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;benefits&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP2&amp;#39;&lt;/span&gt;] \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts() \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Num. of pages&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;yields:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;( Top 5 )&lt;/th&gt;
+&lt;th&gt;Num. of pages&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;all&lt;/td&gt;
+&lt;td&gt;1751&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hotel&lt;/td&gt;
+&lt;td&gt;152&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dining&lt;/td&gt;
+&lt;td&gt;139&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;shopping&lt;/td&gt;
+&lt;td&gt;88&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;golf&lt;/td&gt;
+&lt;td&gt;34&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We can see that &lt;strong&gt;chapter 2&lt;/strong&gt; is &lt;strong&gt;benefit category&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Then, the marketing/partnership department wants to know how &lt;strong&gt;benefits&lt;/strong&gt; in &lt;strong&gt;hotel&lt;/strong&gt; are doing:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PLATFORM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Web&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;benefits&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP2&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;hotel&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP3&amp;#39;&lt;/span&gt;] \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts() \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Num. of pages&amp;#39;&lt;/span&gt;) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;yields:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;( Top 5 )&lt;/th&gt;
+&lt;th&gt;Num. of pages&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;tokyo&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;mumbai&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;london&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bali&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;los angeles&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We can see that &lt;strong&gt;chapter 3&lt;/strong&gt; is the location of &lt;strong&gt;benefits&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;But the the marketing/partnership department wants to know more, here is where &lt;strong&gt;customer journey&lt;/strong&gt; comes in handy.&lt;/p&gt;
+&lt;p&gt;We can study where &lt;strong&gt;customer journey&lt;/strong&gt; &amp;ldquo;forks&amp;rdquo; to after customer has browsed the &lt;strong&gt;benefits for the desired category and for the right location/city&lt;/strong&gt;. Ideally, to turn revenue, we want to see customer either go to &lt;strong&gt;chapter 1&lt;/strong&gt; of &lt;strong&gt;booknow&lt;/strong&gt;, &lt;strong&gt;email request&lt;/strong&gt; or &lt;strong&gt;concierge chat request&lt;/strong&gt; i.e. the &lt;strong&gt;channels&lt;/strong&gt; of servicing. In other words, we want customers to book a request through different channels via CRM after they have browsed &lt;strong&gt;benefits&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;We can then combine it with what is stored in CMS (a.k.a. content management system) about &lt;strong&gt;benefits&lt;/strong&gt; to provide more granular views of &lt;strong&gt;customer journey&lt;/strong&gt; within the &lt;strong&gt;benefits&lt;/strong&gt; funnel.&lt;/p&gt;
+&lt;p&gt;At the same time, we can formulate a KPI:&lt;/p&gt;
+&lt;p&gt;$KPI=\frac{\text{Number of visit in which customer has forked from benefits to channels}}{\text{Total number of visit in which customer has been to benefits}}$&lt;/p&gt;
+&lt;p&gt;To recap, &lt;strong&gt;chapter 1&lt;/strong&gt; is of higher order to &lt;strong&gt;chapter 2&lt;/strong&gt; and &lt;strong&gt;chapter 3&lt;/strong&gt;. What is tracked and stored in &lt;strong&gt;chapter 2&lt;/strong&gt; and &lt;strong&gt;chapter 3&lt;/strong&gt; largely depends on your &lt;strong&gt;digital tracking template&lt;/strong&gt; and &lt;strong&gt;digital strategy&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://www.kaushik.net/avinash/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Here&amp;rsquo;s&lt;/a&gt; a very good source of digital tracking and digital strategy.&lt;/p&gt;
+&lt;h2 id=&#34;the-challenge&#34;&gt;The Challenge&lt;/h2&gt;
+&lt;p&gt;Naturally, we want our customers to spend some time in the &lt;strong&gt;benefits&lt;/strong&gt; funnel, i.e. browsing through a few benefits and maybe a few different cities (because there may be a positive correlation between amount of money spent and number of cities browsed, maybe). This is sometimes called &lt;strong&gt;depth&lt;/strong&gt; of visit, i.e. how deep the customer has gone in each visit.&lt;/p&gt;
+&lt;p&gt;So the challenge for creating a customer journey based on &lt;strong&gt;chapter 1&lt;/strong&gt; is that there will be a lot of repeated values. Imaging we have a web session (part of a visit) as follows:&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph TD;
+  A[Benefit A] --&gt; B[City A];
+  B[City A] --&gt; C[Benefit B];
+  C[Benefit B] --&gt; D[City A];
+  D[City A] --&gt; E[Benefit ALL];
+  E[Benefit ALL] --&gt; F[City A];
+  F[City A] --&gt; G[...]
+&lt;/div&gt;
+&lt;p&gt;As you can see that all of pages viewed by customer in session above have &lt;strong&gt;chapter 1&lt;/strong&gt; as &lt;strong&gt;benefits&lt;/strong&gt; which will be repeated many times in the &lt;strong&gt;customer journey by chapter 1&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;One may say: &amp;ldquo;easy fix mate, just take unique values of &lt;strong&gt;chapter 1&lt;/strong&gt; in each visit.&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;It would not work because what if the customer in session above went to &lt;strong&gt;offer&lt;/strong&gt; and spent some time there but then went back to &lt;strong&gt;benefits&lt;/strong&gt; to browse furthermore. The second or subsequent &amp;ldquo;fork&amp;rdquo; to &lt;strong&gt;benefits&lt;/strong&gt; would have been lost if we simply take the unique values of &lt;strong&gt;chapter 1&lt;/strong&gt; for each visit.&lt;/p&gt;
+&lt;p&gt;An example of such visit is shown below:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;D_PAGE_CHAP1&lt;/th&gt;
+&lt;th&gt;PAGE_NUM&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;home&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;make a request&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;email request&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;home&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;home&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;make a request&lt;/td&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;email request&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;26&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;make a request&lt;/td&gt;
+&lt;td&gt;28&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;email request&lt;/td&gt;
+&lt;td&gt;29&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;make a request&lt;/td&gt;
+&lt;td&gt;31&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;email request&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;benefits&lt;/td&gt;
+&lt;td&gt;33&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cities&lt;/td&gt;
+&lt;td&gt;34&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cities&lt;/td&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;offer&lt;/td&gt;
+&lt;td&gt;36&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cities&lt;/td&gt;
+&lt;td&gt;37&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Customer in above visit browsed &lt;strong&gt;benefits&lt;/strong&gt; six times seperately.&lt;/p&gt;
+&lt;h2 id=&#34;a-python-solution-to-the-challenge&#34;&gt;A Python solution to the challenge&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;br&gt;
+Start of a Jupyter notebook&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;import-packages&#34;&gt;Import packages&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; pd
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; np
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;fetch-data-from-snowflake-into-a-file-on-disk-in-feather-format&#34;&gt;Fetch data from Snowflake into a file on disk in &lt;strong&gt;feather&lt;/strong&gt; format&lt;/h3&gt;
+&lt;p&gt;Click 
+&lt;a href=&#34;https://www.shaunwang.me/post/post_001_snowpy/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt; for a quick guide on how to pull data from snowflake by using Python&lt;/p&gt;
+&lt;p&gt;The following cell are commented out because I only needed to fun it once and I have done that&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# from snowpy import run_SQL_to_feather&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# run_SQL_to_feather(&amp;#39;./SQL&amp;#39;,&amp;#39;data_pages.sql&amp;#39;,&amp;#39;pages.feather&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# run_SQL_to_feather(&amp;#39;./SQL&amp;#39;,&amp;#39;data_clicks.sql&amp;#39;,&amp;#39;clicks.feather&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# run_SQL_to_feather(&amp;#39;./SQL&amp;#39;,&amp;#39;data_v_contact.sql&amp;#39;,&amp;#39;v_contact.feather&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# print(&amp;#39;Done!&amp;#39;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_option(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;max_colwidth&amp;#39;&lt;/span&gt;,None)
+pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_option(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;min_rows&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# pd.reset_option(&amp;#34;^display&amp;#34;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;load-data-of-page-viewed-from-feather-file-into-memory-and-print-a-summary&#34;&gt;Load data of page viewed from feather file into memory and print a summary&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read_feather(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;./pages.feather&amp;#39;&lt;/span&gt;)
+pg0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;info(verbose&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True, null_counts&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;class &#39;pandas.core.frame.DataFrame&#39;&amp;gt;
+RangeIndex: 6880922 entries, 0 to 6880921
+Data columns (total 17 columns):
+ #   Column             Non-Null Count    Dtype         
+---  ------             --------------    -----         
+ 0   VISITID            6880922 non-null  object        
+ 1   PAGEID             6880922 non-null  object        
+ 2   D_SITE             6880922 non-null  category      
+ 3   PLATFORM           6880922 non-null  object        
+ 4   CONTACT_UUID_JF    5411591 non-null  object        
+ 5   CONTACT_UUID_SDK   6880922 non-null  object        
+ 6   D_DATE_HOUR_VISIT  6880922 non-null  datetime64[ns]
+ 7   D_DATE_HOUR_EVENT  6880922 non-null  datetime64[ns]
+ 8   MIGRATION_FLAG     6880922 non-null  category      
+ 9   PAGE_NAME          6880915 non-null  object        
+ 10  FIRST_PAGE_NAME    6880922 non-null  object        
+ 11  END_PAGE_NAME      6880901 non-null  object        
+ 12  VISIT_LOGGED       6880922 non-null  category      
+ 13  D_PAGE             6880922 non-null  object        
+ 14  D_PAGE_CHAP1       6880913 non-null  category      
+ 15  D_PAGE_CHAP2       6811048 non-null  object        
+ 16  D_PAGE_CHAP3       6765013 non-null  object        
+dtypes: category(4), datetime64[ns](2), object(11)
+memory usage: 708.7+ MB
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;data-transformation&#34;&gt;Data transformation&lt;/h3&gt;
+&lt;p&gt;The following cell are commented out because I only needed to fun it once and I have done that&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# pg0[&amp;#39;MIGRATION_FLAG&amp;#39;] = pg0[&amp;#39;MIGRATION_FLAG&amp;#39;].astype(&amp;#39;category&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# pg0[&amp;#39;VISIT_LOGGED&amp;#39;] = pg0[&amp;#39;VISIT_LOGGED&amp;#39;].astype(&amp;#39;category&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# pg0[&amp;#39;D_PAGE_CHAP1&amp;#39;] = pg0[&amp;#39;D_PAGE_CHAP1&amp;#39;].astype(&amp;#39;category&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# pg0.insert(pg0.columns.get_loc(&amp;#39;D_SITE&amp;#39;)+1 ,&amp;#39;PLATFORM&amp;#39; \&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#     ,pg0[&amp;#39;D_SITE&amp;#39;].replace([&amp;#39;.+Android.*&amp;#39;, &amp;#39;.+[Ii]OS.*&amp;#39;, &amp;#39;.+Web.+&amp;#39;] \&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#         ,[&amp;#39;Android&amp;#39;, &amp;#39;iOS&amp;#39;, &amp;#39;Web&amp;#39;] \&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#         ,regex=True))&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# pg0[&amp;#39;D_SITE&amp;#39;] = pg0[&amp;#39;D_SITE&amp;#39;].astype(&amp;#39;category&amp;#39;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# pg0.to_feather(&amp;#39;./pages.feather&amp;#39;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;getting-a-smaller-sample-of-pages-viewed-slicing-on-date-of-visit-to-be-between-2019-dec-1-and-2020-jan-31&#34;&gt;Getting a smaller sample of pages viewed, slicing on date of visit, to be between 2019-Dec-1 and 2020-Jan-31&lt;/h3&gt;
+&lt;p&gt;We don&amp;rsquo;t need 7 million rows for this exercise&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; \
+    pg0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_DATE_HOUR_VISIT&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;between(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2019-12-01&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2020-01-31&amp;#39;&lt;/span&gt;)]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reset_index(drop&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;getting-subset-of-data-from-the-sample-in-which-number-of-pages-viewed-per-each-visit-is-between-20-and-60&#34;&gt;Getting subset of data from the sample in which number of pages viewed per each visit is between 20 and 60&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pg1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;] \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;isin(df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PAGE_COUNT&amp;#39;&lt;/span&gt;) \
+            &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;query(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;index.str.contains(&amp;#39;JF&amp;#39;) &amp;amp; PAGE_COUNT.between(20,60)&amp;#34;&lt;/span&gt;) \
+            &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;index&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_list())]) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reset_index(drop&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;printing-a-summary-of-the-final-sample-which-we-will-work-on&#34;&gt;Printing a summary of the final sample which we will work on&lt;/h3&gt;
+&lt;p&gt;We have about 120,000 rows&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;info()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;class &#39;pandas.core.frame.DataFrame&#39;&amp;gt;
+RangeIndex: 124344 entries, 0 to 124343
+Data columns (total 17 columns):
+ #   Column             Non-Null Count   Dtype         
+---  ------             --------------   -----         
+ 0   VISITID            124344 non-null  object        
+ 1   PAGEID             124344 non-null  object        
+ 2   D_SITE             124344 non-null  category      
+ 3   PLATFORM           124344 non-null  object        
+ 4   CONTACT_UUID_JF    76891 non-null   object        
+ 5   CONTACT_UUID_SDK   124344 non-null  object        
+ 6   D_DATE_HOUR_VISIT  124344 non-null  datetime64[ns]
+ 7   D_DATE_HOUR_EVENT  124344 non-null  datetime64[ns]
+ 8   MIGRATION_FLAG     124344 non-null  category      
+ 9   PAGE_NAME          124342 non-null  object        
+ 10  FIRST_PAGE_NAME    124344 non-null  object        
+ 11  END_PAGE_NAME      124323 non-null  object        
+ 12  VISIT_LOGGED       124344 non-null  category      
+ 13  D_PAGE             124344 non-null  object        
+ 14  D_PAGE_CHAP1       124342 non-null  category      
+ 15  D_PAGE_CHAP2       108905 non-null  object        
+ 16  D_PAGE_CHAP3       95794 non-null   object        
+dtypes: category(4), datetime64[ns](2), object(11)
+memory usage: 12.8+ MB
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;producing-tables-for-post&#34;&gt;Producing tables for post&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PLATFORM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Web&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;] \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts() \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Num. of pages&amp;#39;&lt;/span&gt;) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Num. of pages&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;13856&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;login&lt;/th&gt;
+      &lt;td&gt;5631&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;registration&lt;/th&gt;
+      &lt;td&gt;4819&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;4703&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;error&lt;/th&gt;
+      &lt;td&gt;4345&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;2539&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;2451&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;offer&lt;/th&gt;
+      &lt;td&gt;2359&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;requests&lt;/th&gt;
+      &lt;td&gt;1927&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;booknow&lt;/th&gt;
+      &lt;td&gt;1263&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;concierge chat request&lt;/th&gt;
+      &lt;td&gt;975&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;profile&lt;/th&gt;
+      &lt;td&gt;795&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PLATFORM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Web&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;benefits&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP2&amp;#39;&lt;/span&gt;] \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts() \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Num. of pages&amp;#39;&lt;/span&gt;) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Num. of pages&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;all&lt;/th&gt;
+      &lt;td&gt;1751&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;hotel&lt;/th&gt;
+      &lt;td&gt;152&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;dining&lt;/th&gt;
+      &lt;td&gt;139&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;shopping&lt;/th&gt;
+      &lt;td&gt;88&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;golf&lt;/th&gt;
+      &lt;td&gt;34&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg1 \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PLATFORM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Web&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;benefits&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP2&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;hotel&amp;#39;&lt;/span&gt;]) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP3&amp;#39;&lt;/span&gt;] \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value_counts() \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Num. of pages&amp;#39;&lt;/span&gt;) \
+    &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Num. of pages&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;tokyo&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;mumbai&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;london&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;taichung&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;bali&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;creating-a-function-to-be-pipelinedie-chained-with-other-functions-to-move-column-to-the-desired-loc&#34;&gt;Creating a function to be pipelined(i.e. chained) with other functions, to move column to the desired loc&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;moving_col&lt;/span&gt;(df, col_name, col_name_insert_at, after&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; isinstance(df, pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DataFrame):
+        loc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        col &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pop(col_name)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; after:
+            loc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;columns&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_loc(col_name_insert_at) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            loc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;columns&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get_loc(col_name_insert_at)
+        df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;insert(loc, col_name, col)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; df
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; None
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-customer-journey&#34;&gt;Create customer journey&lt;/h3&gt;
+&lt;h4 id=&#34;1-create-page-number-in-each-visit-sorted-by-event-datetime-of-page-viewed-ascendingly&#34;&gt;1. Create page number in each visit sorted by event date/time of page viewed ascendingly&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; \
+    pg1[[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PAGEID&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;]] \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sort_values([&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PAGEID&amp;#39;&lt;/span&gt;]) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reset_index(drop&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(PAGE_NUM&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cumcount()&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;print_results&lt;/span&gt;(df):
+    df_c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; None
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; isinstance(df, pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DataFrame):
+        df_c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;query(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID==&amp;#34;JF - Visa APAC Android - PROD_2019-12-02_000000000000001&amp;#34;&amp;#39;&lt;/span&gt;) \
+            &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loc[:,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;:])&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_index(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;,drop&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; df_c
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; df_c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;print_results(pg2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;PAGE_NUM&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;D_PAGE_CHAP1&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;12&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;13&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;14&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;15&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;18&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;20&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;21&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;22&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;23&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;25&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;26&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;27&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;28&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;29&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;31&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;33&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;34&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;35&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;offer&lt;/th&gt;
+      &lt;td&gt;36&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;37&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;2-getting-continuous-page-boolean-markers-the-start-row-of-each-sequence-is-1-subsequent-row-with-the-same-d_page_chap1-is-0&#34;&gt;2. Getting continuous page boolean markers: the start row of each sequence is 1, subsequent row with the same D_PAGE_CHAP1 is 0&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; \
+    pg2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(CONTINUOUS_PG_BOOL_MARKER&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: \
+        ((df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PAGE_NUM&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) \
+            &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; ((df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shift(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)) \
+                &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; (df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shift(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)))) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;astype(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;int&amp;#39;&lt;/span&gt;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;print_results(pg2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;PAGE_NUM&lt;/th&gt;
+      &lt;th&gt;CONTINUOUS_PG_BOOL_MARKER&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;D_PAGE_CHAP1&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;21&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;27&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;28&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;29&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;30&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;33&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;34&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;35&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;offer&lt;/th&gt;
+      &lt;td&gt;36&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;37&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;3-then-cumsum-within-each-visit-so-that-each-member-row-including-the-start-row-of-a-sequence-would-be-assigned-with-the-same-number-but-different-to-the-number-assigned-to-subsequent-sequences&#34;&gt;3. Then, cumsum within each visit so that each member row (including the start row) of a sequence would be assigned with the same number but different to the number assigned to subsequent sequences&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pg2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(PG_SQUNC_GROUP_MARKER&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;CONTINUOUS_PG_BOOL_MARKER&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cumsum())
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;print_results(pg2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;PAGE_NUM&lt;/th&gt;
+      &lt;th&gt;CONTINUOUS_PG_BOOL_MARKER&lt;/th&gt;
+      &lt;th&gt;PG_SQUNC_GROUP_MARKER&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;D_PAGE_CHAP1&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;21&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;27&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;28&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;29&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;30&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;33&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;34&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;35&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;offer&lt;/th&gt;
+      &lt;td&gt;36&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;19&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;37&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;20&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;4-create-rank-by-row-within-each-group-as-marked-by-pg_squnc_group_marker&#34;&gt;4. Create rank by row within each group as marked by PG_SQUNC_GROUP_MARKER&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pg2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(PG_SQUNC_GROUP_RANK&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: \
+          df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby([&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_MARKER&amp;#39;&lt;/span&gt;])[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_MARKER&amp;#39;&lt;/span&gt;] \
+               &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cumcount()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;astype(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;int&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;print_results(pg2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;PAGE_NUM&lt;/th&gt;
+      &lt;th&gt;CONTINUOUS_PG_BOOL_MARKER&lt;/th&gt;
+      &lt;th&gt;PG_SQUNC_GROUP_MARKER&lt;/th&gt;
+      &lt;th&gt;PG_SQUNC_GROUP_RANK&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;D_PAGE_CHAP1&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;21&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;27&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;28&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;29&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;30&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;33&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;34&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;35&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;offer&lt;/th&gt;
+      &lt;td&gt;36&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;37&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;5-create-group-size-of-each-sequence-and-assign-the-group-size-to-all-members-of-the-sequence&#34;&gt;5. Create group size of each sequence and assign the group size to all members of the sequence&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pg2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(PG_SQUNC_GROUP_SIZE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: \
+          df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby([&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_MARKER&amp;#39;&lt;/span&gt;])[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_MARKER&amp;#39;&lt;/span&gt;] \
+              &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;transform(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;size&amp;#39;&lt;/span&gt;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;print_results(pg2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;PAGE_NUM&lt;/th&gt;
+      &lt;th&gt;CONTINUOUS_PG_BOOL_MARKER&lt;/th&gt;
+      &lt;th&gt;PG_SQUNC_GROUP_MARKER&lt;/th&gt;
+      &lt;th&gt;PG_SQUNC_GROUP_RANK&lt;/th&gt;
+      &lt;th&gt;PG_SQUNC_GROUP_SIZE&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;D_PAGE_CHAP1&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;home&lt;/th&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;21&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;27&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;28&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;29&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;30&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;make a request&lt;/th&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;email request&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;benefits&lt;/th&gt;
+      &lt;td&gt;33&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;34&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;35&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;offer&lt;/th&gt;
+      &lt;td&gt;36&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;cities&lt;/th&gt;
+      &lt;td&gt;37&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;6-filtering-rows-to-the-ones-which-only-have-pg_squnc_group_rank-as-1-pg_squnc_group_rank--1-points-to-the-first-occurance-of-charpter-1-in-a-group-of-charpter-1s-which-are-the-same-as-the-the-first-occurance-then-create-charpter-1-customer-journey-and-create-step-depth-for-each-point-in-charpter-1-customer-journey&#34;&gt;6. Filtering rows to the ones which only have PG_SQUNC_GROUP_RANK as 1, PG_SQUNC_GROUP_RANK = 1 points to the first occurance of charpter 1 in a group of charpter 1&amp;rsquo;s which are the same as the the first occurance; then create charpter 1 customer journey; and create step depth for each point in charpter 1 customer journey&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg_ch1_journey &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; \
+    pg2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df[df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_RANK&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(PG_SQUNC_GROUP_FIRST_OCCUR_NUM&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: \
+            df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cumcount()&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(CAT_STRING&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: \
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;[&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_FIRST_OCCUR_NUM&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;astype(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;str&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;] &amp;#39;&lt;/span&gt;) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;assign(TO_FORM_LIST&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: \
+            df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;CAT_STRING&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;str&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cat(df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;D_PAGE_CHAP1&amp;#39;&lt;/span&gt;])) \
+        &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pipe(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; df: df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;)[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;TO_FORM_LIST&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;agg(list) \
+            &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;CHAP1_JOURNEY&amp;#39;&lt;/span&gt;) \
+            &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join(df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;VISITID&amp;#39;&lt;/span&gt;)[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PG_SQUNC_GROUP_SIZE&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;agg(list) \
+                &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_frame(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;CHAP1_JOURNEY_STEP_DEPTH&amp;#39;&lt;/span&gt;)))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;pg_ch1_journey&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reset_index(drop&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;True)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;CHAP1_JOURNEY&lt;/th&gt;
+      &lt;th&gt;CHAP1_JOURNEY_STEP_DEPTH&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;[[1] home, [2] benefits, [3] make a request, [4] email request, [5] home, [6] benefits, [7] home, [8] benefits, [9] make a request, [10] email request, [11] benefits, [12] make a request, [13] email request, [14] benefits, [15] make a request, [16] email request, [17] benefits, [18] cities, [19] offer, [20] cities]&lt;/td&gt;
+      &lt;td&gt;[1, 4, 1, 1, 1, 2, 1, 3, 1, 1, 11, 1, 1, 1, 1, 1, 1, 2, 1, 1]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;[[1] benefits, [2] contents, [3] benefits, [4] offer, [5] error, [6] offer, [7] home, [8] benefits, [9] offer, [10] error, [11] offer, [12] home]&lt;/td&gt;
+      &lt;td&gt;[3, 1, 1, 3, 1, 2, 1, 1, 3, 1, 2, 1]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;[[1] home, [2] login, [3] legal, [4] help, [5] registration, [6] help, [7] home, [8] help]&lt;/td&gt;
+      &lt;td&gt;[1, 4, 2, 1, 2, 1, 1, 13]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;[[1] home, [2] login, [3] legal, [4] registration, [5] legal, [6] help, [7] home, [8] help, [9] login, [10] help, [11] registration, [12] help]&lt;/td&gt;
+      &lt;td&gt;[1, 3, 1, 2, 1, 1, 1, 5, 1, 1, 1, 3]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;[[1] home, [2] login, [3] home, [4] benefits, [5] home, [6] highlights, [7] offer, [8] home, [9] cities, [10] offer, [11] cities, [12] offer, [13] home, [14] requests, [15] make a request, [16] concierge chat request, [17] requests, [18] make a request, [19] requests, [20] concierge chat request, [21] requests, [22] home, [23] login, [24] home, [25] make a request, [26] concierge chat request, [27] home]&lt;/td&gt;
+      &lt;td&gt;[1, 1, 2, 1, 1, 1, 1, 1, 3, 2, 3, 7, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1]&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;br&gt;
+End of a Jupyter notebook&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;the-customer-journey&#34;&gt;The Customer Journey&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s take the following &lt;strong&gt;customer journey&lt;/strong&gt; of a visist:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[[1] benefits, [2] contents, [3] benefits, [4] offer, [5] error, [6] offer, [7] home, [8] benefits, [9] offer, [10] error, [11] offer, [12] home]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;with &lt;strong&gt;step depth&lt;/strong&gt; of the following:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[3, 1, 1, 3, 1, 2, 1, 1, 3, 1, 2, 1]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We can quickly draw some insights:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Customer journey did not start with &lt;strong&gt;home&lt;/strong&gt;, indicating that prior to browsing &lt;strong&gt;benefit&lt;/strong&gt; customer was inactive for more than 30 minutes so a new visit was tracked when customer was active again.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Action: check if 30 minutes threshold is appropriate. Check the proportion of those visits which were timed out. If proportion is large, deep-dive.
+&lt;br&gt;&lt;/br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Customer experienced &lt;strong&gt;error&lt;/strong&gt; after browsed &lt;strong&gt;offer&lt;/strong&gt; and this happened two times.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Action: check &lt;strong&gt;chapter 2&lt;/strong&gt; and &lt;strong&gt;chapter 3&lt;/strong&gt; for more details of the error. Check the proportion of forking to &lt;strong&gt;error&lt;/strong&gt; after &lt;strong&gt;offer&lt;/strong&gt; pages; and &lt;strong&gt;error&lt;/strong&gt; happend after which &lt;strong&gt;chapter 3&lt;/strong&gt; and its proportion
+&lt;br&gt;&lt;/br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Look for the customer journey of next visit by the customer to draw more insights&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Look for the customer journey of previous visit by the customer to add that to this customer journey to form a more complete journey&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;path-map&#34;&gt;Path Map&lt;/h2&gt;
+&lt;p&gt;We can draw greater insights by creating a path map based on large dataset of visits and viewed-pages:
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure id=&#34;figure-customer-journey-path-map&#34;&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;//localhost:1313/post/post_002_dig_cust_journey/img/path_map_hu10f710f4792b2f4835194c2a9bf94a01_81312_2000x2000_fit_q90_lanczos.jpg&#34; data-caption=&#34;Customer Journey Path Map&#34;&gt;
+
+
+  &lt;img data-src=&#34;//localhost:1313/post/post_002_dig_cust_journey/img/path_map_hu10f710f4792b2f4835194c2a9bf94a01_81312_2000x2000_fit_q90_lanczos.jpg&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;744&#34; height=&#34;640&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Customer Journey Path Map
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

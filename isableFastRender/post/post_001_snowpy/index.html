@@ -217,8 +217,8 @@
   
 
   <link rel="manifest" href="/index.webmanifest">
-  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
-  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+  <link rel="icon" type="image/png" href="/images/icon_hu02d4214244b58f4d9dfd2bf839db7a24_8568_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu02d4214244b58f4d9dfd2bf839db7a24_8568_192x192_fill_lanczos_center_2.png">
 
   <link rel="canonical" href="//localhost:1313/post/post_001_snowpy/">
 
@@ -288,7 +288,7 @@
     "name": "Shaun Wang",
     "logo": {
       "@type": "ImageObject",
-      "url": "//localhost:1313/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
+      "url": "//localhost:1313/images/logo_hu02d4214244b58f4d9dfd2bf839db7a24_8568_192x192_fit_lanczos_2.png"
     }
   },
   "description": "This is a quick guide on how to use my Python module to streamline your data workflow with Snowflake and Pandas, making data extraction easier."
@@ -354,13 +354,15 @@
 
 
 
+  
+
 
 <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
   <div class="container">
 
     
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/">Shaun Wang</a>
+      <a class="navbar-brand" href="/"><img src="/images/logo_hu02d4214244b58f4d9dfd2bf839db7a24_8568_0x70_resize_lanczos_2.png" alt="Shaun Wang"></a>
     </div>
     
 
@@ -373,7 +375,7 @@
 
     
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/">Shaun Wang</a>
+      <a class="navbar-brand" href="/"><img src="/images/logo_hu02d4214244b58f4d9dfd2bf839db7a24_8568_0x70_resize_lanczos_2.png" alt="Shaun Wang"></a>
     </div>
     
 
@@ -631,7 +633,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    5 min read
+    6 min read
   </span>
   
 
@@ -728,11 +730,23 @@
 
     <div class="article-style">
       <h1 id="how-to-connect-to-snowflake-and-pull-data-by-using-python">How to connect to Snowflake and pull data by using Python</h1>
-<p>This is a quick guide on how to use my <strong>Python</strong> module to streamline your data workflow with Snowflake and Pandas, making data extraction easier.</p>
-<p>The module contains two functions. One allows you to pull data from Snowflake and stores them in a csv file or pandas.DataFrame. The second function allows you to pull data from Snowflake and stores them in a feather file.</p>
+<p>This is a quick guide on how to use my <strong>Python</strong> module to streamline your data workflow with <strong>Snowflake</strong> and <strong>Pandas</strong>, making data extraction easier.</p>
+<p>The module contains two functions. One allows you to pull data from Snowflake and stores them in a <strong>csv file</strong> or <strong>pandas.DataFrame</strong>. The second function allows you to pull data from Snowflake and stores them in a <strong>feather</strong> file.</p>
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#step-1---install-required-packages">Step 1 - <strong>Install required packages</strong></a></li>
+    <li><a href="#step-2---download-the-snowpypy-module">Step 2 - <strong>Download the snowpy.py module</strong></a></li>
+    <li><a href="#step-3---create-a-folder-for-sql-queries-and-logintxt">Step 3 - <strong>Create a folder for SQL queries and login.txt</strong></a></li>
+    <li><a href="#step-4---how-to-use-snowpy-in-jupyter-notebook">Step 4 - <strong>How to use <strong>snowpy</strong> in Jupyter notebook</strong></a></li>
+    <li><a href="#logging"><strong>Logging</strong></a></li>
+    <li><a href="#python-virtual-environment"><strong>Python Virtual Environment</strong></a></li>
+  </ul>
+</nav>
 <h2 id="step-1---install-required-packages">Step 1 - <strong>Install required packages</strong></h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install snowflake-connector-python<span style="color:#f92672">[</span>pandas<span style="color:#f92672">]</span>
-</code></pre></div><p>Then, verify the following <strong>Python</strong> script to check if it&rsquo;s installed correctly:</p>
+</code></pre></div><p>Then, save the following <strong>Python</strong> script as <strong>validate.py</strong>.
+Run it in terminal to check if the package is installed correctly:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> snowflake.connector
 
 <span style="color:#75715e"># Gets the version</span>
@@ -749,15 +763,14 @@ cs <span style="color:#f92672">=</span> ctx<span style="color:#f92672">.</span>c
 <span style="color:#66d9ef">finally</span>:
     cs<span style="color:#f92672">.</span>close()
 ctx<span style="color:#f92672">.</span>close()
-</code></pre></div><p>then save it as <strong>validate.py</strong>.</p>
-<p>If you not sure about which <strong>account_name</strong> to use like how I was, you can get <strong>account_name</strong> from your Snowflake login URL.</p>
+</code></pre></div><p>If you not sure about which <strong>account_name</strong> to use like how I was, you can get <strong>account_name</strong> from your Snowflake login URL.</p>
 <p>If you login URL looks like the link below:</p>
 <pre><code>https://&lt;&quot;company_name&quot;&gt;.&lt;&quot;region&quot;&gt;.snowflakecomputing.com/console/login#/
 </code></pre><p>then</p>
 <pre><code>&lt;&quot;company_name&quot;&gt;.&lt;&quot;region&quot;&gt;
 </code></pre><p>is your <strong>account_name</strong>.</p>
 <p>Run the <strong>Python</strong> script once you have entered <strong>user_name</strong>, <strong>password</strong> and <strong>account_name</strong>.</p>
-<p>Successful run of <strong>Python</strong> script above shoud look like this:</p>
+<p>Successful run of <strong>Python</strong> script above should look like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">user@home:~$ python3 validate.py
 4.22.3
 </code></pre></div><p>It&rsquo;s ok if your Snowflake version is different than mine.</p>
@@ -786,7 +799,7 @@ ctx<span style="color:#f92672">.</span>close()
 </li>
 <li>
 <p><strong>Save in folder</strong><br>
-Save the downoaded <strong>snowpy.py</strong> file in our working folder.</p>
+Save the downoaded <strong>snowpy.py</strong> file in your working folder.</p>
 <p>or</p>
 <p>Use the downloaded repository as your working folder, it comes with a <strong>Pyhon virtual environment</strong> with all the required packages which are listed in <strong>requirement.txt</strong>.</p>
 </li>
@@ -866,7 +879,7 @@ folder
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod <span style="color:#ae81ff">600</span> login.txt
 </code></pre></div><p>Click 
 <a href="https://help.ubuntu.com/community/FilePermissions" target="_blank" rel="noopener">here</a> for detailed explanation of file permissions in linux machines</p>
-<p>It&rsquo;s also a good idea to add <strong>login.txt</strong> to <strong>.gitignore</strong> file so that you don&rsquo;t accidentially commit and push <strong>login.txt</strong> with your real password stored in it.</p>
+<p>It&rsquo;s also a good idea to add <strong>login.txt</strong> to <strong>.gitignore</strong> file so that you don&rsquo;t accidentially <code>git commit</code> and <code>git push</code> <strong>login.txt</strong> with your real password to a public repository such as <strong>Github</strong> or <strong>Bitbucket</strong>.</p>
 </li>
 </ol>
 <h2 id="step-4---how-to-use-snowpy-in-jupyter-notebook">Step 4 - <strong>How to use <strong>snowpy</strong> in Jupyter notebook</strong></h2>
@@ -892,26 +905,7 @@ folder
  Or copy and paste one of these URLs:
      http://localhost:8888/?token<span style="color:#f92672">=</span>0cf9066b55adf4f683097cef877f696b7ad0f11234567890
      or http://127.0.0.1:8888/?token<span style="color:#f92672">=</span>0cf9066b55adf4f683097cef877f696b7ad0f11234567890
-</code></pre></div><pre><code>Your
-working 
-folder
- |
- ├── login.txt
- ├── README.md
- ├── requirements.txt
- ├── snowpy
- │   ├── bin
- │   ├── include
- │   ├── lib
- │   ├── lib64 -&gt; lib
- │   ├── pyvenv.cfg
- │   └── share
- ├── snowpy.py
- ├── SQLs
- │   └── my_sql.sql
- ├── 'test.ipynb' &lt;&lt;----------------------------&lt;
- └── validate.py
-</code></pre></li>
+</code></pre></div></li>
 <li>
 <p><strong>Create a test jupyter notebook</strong>
 
@@ -935,10 +929,10 @@ folder
 <figure id="figure-a">
 
 
-  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_001_hu294daab3ca74cd9d77cc43466b143f63_45526_2000x2000_fit_lanczos_2.png" data-caption="(A)">
+  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_001_hu6ac01182dcc5d7a27f61892c7fee54b1_46110_2000x2000_fit_lanczos_2.png" data-caption="(A)">
 
 
-  <img data-src="/post/post_001_snowpy/img/jupyter_001_hu294daab3ca74cd9d77cc43466b143f63_45526_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="766" height="397">
+  <img data-src="/post/post_001_snowpy/img/jupyter_001_hu6ac01182dcc5d7a27f61892c7fee54b1_46110_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="790" height="421">
 </a>
 
 
@@ -972,10 +966,10 @@ folder
 <figure id="figure-b">
 
 
-  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_002_hucf120c3de191f194dea523bae7415135_49016_2000x2000_fit_lanczos_2.png" data-caption="(B)">
+  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_002_hu23e41fe1c67a13b8a9a68f845c17b2d5_50018_2000x2000_fit_lanczos_2.png" data-caption="(B)">
 
 
-  <img data-src="/post/post_001_snowpy/img/jupyter_002_hucf120c3de191f194dea523bae7415135_49016_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="771" height="422">
+  <img data-src="/post/post_001_snowpy/img/jupyter_002_hu23e41fe1c67a13b8a9a68f845c17b2d5_50018_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="795" height="446">
 </a>
 
 
@@ -1009,10 +1003,10 @@ folder
 <figure id="figure-c">
 
 
-  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_003_hu5c8c124ff00e14cca41f674dc880da9b_25578_2000x2000_fit_lanczos_2.png" data-caption="(C)">
+  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_003_hu9167b3668435e0917cca2889270f3e1a_26117_2000x2000_fit_lanczos_2.png" data-caption="(C)">
 
 
-  <img data-src="/post/post_001_snowpy/img/jupyter_003_hu5c8c124ff00e14cca41f674dc880da9b_25578_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="765" height="281">
+  <img data-src="/post/post_001_snowpy/img/jupyter_003_hu9167b3668435e0917cca2889270f3e1a_26117_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="789" height="305">
 </a>
 
 
@@ -1024,8 +1018,27 @@ folder
 
 
 </figure>
-
-
+</p>
+<pre><code>Your
+working 
+folder
+ |
+ ├── login.txt
+ ├── README.md
+ ├── requirements.txt
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── my_sql.sql
+ ├── 'test.ipynb' &lt;&lt;----------------------------&lt;
+ └── validate.py
+</code></pre><p>
 
 
 
@@ -1046,10 +1059,10 @@ folder
 <figure id="figure-d">
 
 
-  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_004_hu77b84dcb0141a5faa12bbdc2dd7bc996_72768_2000x2000_fit_lanczos_2.png" data-caption="(D)">
+  <a data-fancybox="" href="/post/post_001_snowpy/img/jupyter_004_huccd600ff4f2fd765f7c9714a4daf9b34_81125_2000x2000_fit_lanczos_2.png" data-caption="(D)">
 
 
-  <img data-src="/post/post_001_snowpy/img/jupyter_004_hu77b84dcb0141a5faa12bbdc2dd7bc996_72768_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="764" height="684">
+  <img data-src="/post/post_001_snowpy/img/jupyter_004_huccd600ff4f2fd765f7c9714a4daf9b34_81125_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="788" height="708">
 </a>
 
 
@@ -1090,6 +1103,96 @@ folder
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install feather-format
 </code></pre></div><p>Feather uses the 
 <a href="https://arrow.apache.org/" target="_blank" rel="noopener">Apache Arrow</a> columnar memory specification to represent binary data on disk. This makes read and write operations very fast.</p>
+<h2 id="logging"><strong>Logging</strong></h2>
+<p>Both functions provide <strong>debug</strong> level of <strong>logging</strong>. This level of logging allows you to see what the code has done at every step.</p>
+<p>The log file, <strong>snowflake_python_connector_log.txt</strong> is located here:</p>
+<pre><code>Your
+working 
+folder
+ |
+ ├── img
+ ├── login.txt
+ ├── __pycache__
+ ├── README.md
+ ├── requirements.txt
+ ├── 'snowflake_python_connector_log.txt' &lt;&lt;-----------------&lt;
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── my_sql.sql
+ ├── test.ipynb
+ ├── test.ipynb.md
+ └── validate.py
+</code></pre><p>It&rsquo;s a good idea to add <strong>snowflake_python_connector_log.txt</strong> to <strong>.gitignore</strong> file so that you don&rsquo;t accidentially <code>git commit</code> and <code>git push</code> <strong>snowflake_python_connector_log.txt</strong> to a public repository like <strong>Github</strong> or <strong>Bitbucket</strong>.</p>
+<h2 id="python-virtual-environment"><strong>Python Virtual Environment</strong></h2>
+<p>If you chose to <strong>download</strong> or <strong>clone</strong> from 
+<a href="https://github.com/shaunxwang/snowpy/archive/master.zip" target="_blank" rel="noopener"><strong>Github</strong></a>, the files come with a <strong>Python virtual environment</strong> pre-installed, located here:</p>
+<pre><code>Your
+working 
+folder
+ |
+ ├── img
+ ├── login.txt
+ ├── __pycache__
+ ├── README.md
+ ├── requirements.txt
+ ├── snowflake_python_connector_log.txt
+ ├── 'snowpy'  &lt;&lt;----------------------------&lt;
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── my_sql.sql
+ ├── test.ipynb
+ ├── test.ipynb.md
+ └── validate.py
+</code></pre><p>If you are using <strong>VS Code</strong> like I am, you can add the following setting to your <strong>.vscode/settings.json</strong> file, so that you will activate and use the pre-installed <strong>Python virtual environment</strong> for testing or just playing around with the two functions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+ <span style="color:#f92672">&#34;python.pythonPath&#34;</span>: <span style="color:#e6db74">&#34;snowpy/bin/python&#34;</span>
+}
+</code></pre></div><p><strong>settings.json</strong> located here:</p>
+<pre><code>Your
+working 
+folder
+ |   
+ ├── .git
+ ├── .gitignore
+ ├── img
+ ├── .ipynb_checkpoints
+ ├── login.txt
+ ├── README.md
+ ├── requirements.txt
+ ├── snowflake_python_connector_log.txt
+ ├── snowpy
+ │   ├── bin
+ │   ├── include
+ │   ├── lib
+ │   ├── lib64 -&gt; lib
+ │   ├── pyvenv.cfg
+ │   └── share
+ ├── snowpy.py
+ ├── SQLs
+ │   └── my_sql.sql
+ ├── test.ipynb
+ ├── test.ipynb.md
+ ├── validate.py
+ └── .vscode
+     └── 'settings.json' &lt;&lt;----------------------------&lt;
+</code></pre><blockquote>
+<p>⚠️ <br>
+The <code>venv</code> is built in linux machine, this means it does <strong>not</strong> have <code>/Scripts/activate.bat</code> or <code>/Scripts/Activate.ps1</code> for you to activate <code>venv</code> in Windows. Sorry, Windows users need to build their own <code>venv</code> and install packages by using <code>requirements.txt</code>; or use 
+<a href="https://docs.microsoft.com/en-us/windows/wsl/faq" target="_blank" rel="noopener">Windows subsystem for Linux</a></p>
+</blockquote>
 </li>
 </ol>
 
@@ -1306,6 +1409,15 @@ folder
 
   
   
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/post_002_dig_cust_journey/">Digital customer journey - a practical example</a></li>
+      
+    </ul>
+  </div>
+  
 
 
 
@@ -1341,6 +1453,12 @@ folder
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/bash.min.js"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/shell.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/json.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/javascript.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/html.min.js"></script>
         
       
 
