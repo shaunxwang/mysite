@@ -251,7 +251,7 @@ An example of such visit is shown below:
 
 Customer in above visit browsed **benefits** six times seperately.
 
-## A Python solution to the challenge
+## A Python Solution to the Challenge
 > :warning: <br>
 Start of a Jupyter notebook
 
