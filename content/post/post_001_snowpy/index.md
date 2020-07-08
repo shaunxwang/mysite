@@ -24,7 +24,10 @@ links:
 # How to connect to Snowflake and pull data by using Python
 This is a quick guide on how to use my **Python** module to streamline your data workflow with **Snowflake** and **Pandas**, making data extraction easier.
 
-The module contains two functions. One allows you to pull data from Snowflake and stores them in a **csv file** or **pandas.DataFrame**. The second function allows you to pull data from Snowflake and stores them in a feather file.
+The module contains two functions. One allows you to pull data from Snowflake and stores them in a **csv file** or **pandas.DataFrame**. The second function allows you to pull data from Snowflake and stores them in a **feather** file.
+
+{{% toc %}}
+
 ## Step 1 - **Install required packages**
 ```bash
 pip install snowflake-connector-python[pandas]
@@ -64,7 +67,7 @@ is your **account_name**.
 
 Run the **Python** script once you have entered **user_name**, **password** and **account_name**.
 
-Successful run of **Python** script above shoud look like this:
+Successful run of **Python** script above should look like this:
 ```bash
 user@home:~$ python3 validate.py
 4.22.3
@@ -96,7 +99,7 @@ to save some time.
 
    {{< icon name="file-archive" pack="fas" >}}[Download github repository as a zip file](https://github.com/shaunxwang/snowpy/archive/master.zip)
 2. **Save in folder**  
-   Save the downoaded **snowpy.py** file in our working folder.
+   Save the downoaded **snowpy.py** file in your working folder.
 
    or
 
@@ -187,7 +190,7 @@ folder
    ```
    Click [here](https://help.ubuntu.com/community/FilePermissions) for detailed explanation of file permissions in linux machines
 
-   It's also a good idea to add **login.txt** to **.gitignore** file so that you don't accidentially commit and push **login.txt** with your real password stored in it.
+   It's also a good idea to add **login.txt** to **.gitignore** file so that you don't accidentially ```git commit``` and ```git push``` **login.txt** with your real password to a public repository such as **Github** or **Bitbucket**.
 
 ## Step 4 - **How to use **snowpy** in Jupyter notebook**
 1. **Install Jupyter notebook**
@@ -215,6 +218,10 @@ folder
         http://localhost:8888/?token=0cf9066b55adf4f683097cef877f696b7ad0f11234567890
         or http://127.0.0.1:8888/?token=0cf9066b55adf4f683097cef877f696b7ad0f11234567890
    ```
+3. **Create a test jupyter notebook**
+   {{< figure src="img/jupyter_001.png" title="(A)" lightbox="true" >}}
+   {{< figure src="img/jupyter_002.png" title="(B)" lightbox="true" >}}
+   {{< figure src="img/jupyter_003.png" title="(C)" lightbox="true" >}}
    ```
    Your
    working 
@@ -235,11 +242,7 @@ folder
     │   └── my_sql.sql
     ├── 'test.ipynb' <<----------------------------<
     └── validate.py
-   ```
-3. **Create a test jupyter notebook**
-   {{< figure src="img/jupyter_001.png" title="(A)" lightbox="true" >}}
-   {{< figure src="img/jupyter_002.png" title="(B)" lightbox="true" >}}
-   {{< figure src="img/jupyter_003.png" title="(C)" lightbox="true" >}}
+    ```
    {{< figure src="img/jupyter_004.png" title="(D)" lightbox="true" >}}
    See below for the test SQL query, **my_sql.sql** which is located in **/SQLs/my_sql.sql**:
    ```sql
@@ -276,7 +279,7 @@ folder
    Feather uses the [Apache Arrow](https://arrow.apache.org/) columnar memory specification to represent binary data on disk. This makes read and write operations very fast.
 
    ## **Logging**
-   Both functions provide **debuggin** level of **debug** which is deepest level for logging. This level of logging allows you to see what the code has done step-by-step.
+   Both functions provide **debug** level of **logging**. This level of logging allows you to see what the code has done at every step.
 
    The log file, **snowflake_python_connector_log.txt** is located here:
    ```
@@ -367,6 +370,8 @@ folder
     ├── test.ipynb
     ├── test.ipynb.md
     ├── validate.py
-    └── '.vscode' <<----------------------------<
-        └── settings.json
+    └── .vscode
+        └── 'settings.json' <<----------------------------<
    ```
+   > :warning: <br>
+   The ```venv``` is built in linux machine, this means it does **not** have ```/Scripts/activate.bat``` or ```/Scripts/Activate.ps1``` for you to activate ```venv``` in Windows. Sorry, Windows users need to build their own ```venv``` and install packages by using ```requirements.txt```; or use [Windows subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/faq)

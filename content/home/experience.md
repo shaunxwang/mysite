@@ -43,7 +43,7 @@ date_format = "Jan 2006"
   date_end = "2019-10-01"
   description = """Responsible for requirement collection, methodology design, feedback loop, stakeholder management, analysis, results delivery.
   
-  * Deep-mined of Salesforce Objects and Marketing Cloud for statistical analysis including but not limited to: segmentation, linear regression, correlation study, seasonality study and distribution analysis
+  * Deep-mining of Salesforce Objects and Marketing Cloud for statistical analysis including but not limited to: segmentation, linear regression, correlation study, seasonality study and distribution analysis
   * Constructed APAC data visualisation platform on BIRST
   * Created ETL jobs on Snowflake in SQL
   * Managed monthly reporting of KPIs and employee scorecard
@@ -90,7 +90,7 @@ date_format = "Jan 2006"
   company_url = "https://www.americanexpress.com/au/"
   location = "Sydney | Australia"
   date_start = "2014-06-01"
-  date_end = "2016-12-01"
+  date_end = "2015-12-31"
   description = """
   * Deliver extraordinary care, on calls, to a wide range of American Express customers with a variety of requests
   * Build meaningful relationship through consultative questioning to ensure added value for the customer

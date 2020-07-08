@@ -1,1 +1,1 @@
-** A personal site built based on Academic theme of Hugo **
+**A personal site built based on Academic theme of Hugo**
