@@ -79,8 +79,8 @@ date_format = "Jan 2006"
   Responsible for:
   
   * Monthly P4P (pay for performance) reporting
-  * Monthly emplyee performance and conduct reporting
-  * Remeidation - marketing escalation bucket
+  * Monthly employee performance and conduct reporting
+  * Remediation - marketing escalation bucket
   * CCP profiling tool (VBA/SQL)
   * Ad-hoc analysis/data visualisation requested by product, project, operations managers and general managers
   """
@@ -107,7 +107,7 @@ date_format = "Jan 2006"
   date_start = "2011-01-01"
   date_end = "2014-04-01"
   description = """
-  * Assist customers and businesses with banking inquries and needs over-the-counter
+  * Assist customers and businesses with banking inquires and needs over-the-counter
   * Purchase and sell 30+ foreign currencies to travelers in Sydney International Airport
   * Cross-sell travel cards and travel insurance policies
   * Uphold and represent bank's standards of customer care and service excellence
