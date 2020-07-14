@@ -251,7 +251,7 @@ plt.title('Cost History')
 ```
 
 
-![02](img/linear_reg_02_fit.png)
+![02](img/linear_reg_03_cost_hist.png)
 
 
 #### Predict $\hat{y}$ using test set
@@ -272,13 +272,8 @@ plt.title('Fitted Linear Model')
 ```
 
 
-![03](img/linear_reg_03_cost_hist.png)
+![03](img/linear_reg_02_fit.png)
 
-
-```python
-fig.savefig('./linear_reg_02_fit.png')
-plt.close()
-```
 
 #### Calculate MSE
 
