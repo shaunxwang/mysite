@@ -33,7 +33,7 @@ We will use [mean squared error](https://en.wikipedia.org/wiki/Mean_squared_erro
 
 $\displaystyle MSE = J(w ,b) = \frac{1}{N} \sum_{i=1}^n (y_i - (wx_i + b))^2$
 
-### Gradient of this cost function
+### Gradient of this cost function and bias - partial derivatives
 
 $\displaystyle \begin{align}
 J'(w,b) &=
@@ -165,7 +165,7 @@ And, 60 labels in the training set
 
 ```python
 learning_rate = 0.1 # alpha
-number_of_iter = 30 # umber of iterations
+number_of_iter = 30 # number of iterations
 weights = np.zeros(X.shape[1]) # initial weights
 bias = 0 # initial bias
 ```
