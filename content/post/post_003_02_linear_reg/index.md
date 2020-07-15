@@ -131,7 +131,7 @@ print(f'We have {X.shape[0]} data points and {X.shape[1]} features')
 print(f'And, {y.shape[0]} labels')
 ```
 
-We have 200 data points and 1 features
+We have 200 data points and 1 features  
 And, 200 labels
 
 ### Split data into training and testing sets
@@ -150,10 +150,10 @@ print(f'We have {X_test.shape[0]} data points in the training set')
 print(f'And, {y_test.shape[0]} labels in the training set')
 ```
 
-We have 140 data points in the training set
+We have 140 data points in the training set  
 And, 140 labels in the training set
 
-We have 60 data points in the training set
+We have 60 data points in the training set  
 And, 60 labels in the training set
 
 ### Linear regression
