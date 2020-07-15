@@ -14,6 +14,8 @@ featured: false
 draft: false
 ---
 
+{{% toc %}}
+
 ## Part 2 of a series to revisit popular machine learning models
 
 ### In this part I will revisit Linear Regression in ```Python```
