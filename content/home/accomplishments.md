@@ -19,6 +19,16 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[item]]
+  organization = "Snowflake"
+  organization_url = "https://www.snowflake.com/"
+  title = "SnowPro Core Certification"
+  url = ""
+  certificate_url = "https://www.youracclaim.com/badges/a2f91c77-de02-4d37-a28e-3a5e7775cdc4/public_url"
+  date_start = "2020-07-29"
+  date_end = "2022-07-29"
+  description = "SnowPro Core Certified individuals have demonstrated the knowledge necessary to apply specific core expertise in the marketplace with customers implementing and migrating to Snowflake. A SnowPro Core Certified individual has a thorough understanding of Snowflake as a cloud data warehouse and has the knowledge necessary to design, develop and manage secure, scalable Snowflake solutions to drive business objectives."
+
+[[item]]
   organization = "John Paul (Accor Group)"
   organization_url = "https://group.accor.com/en/brands/business-accelerators/john-paul"
   title = "100% Year-End Performance Rating"

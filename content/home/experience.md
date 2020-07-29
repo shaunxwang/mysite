@@ -27,7 +27,7 @@ date_format = "Jan 2006"
   description = """Use Python and SQL for complex analysis and machine learning projects on large datasets.
   
   * End-to-end ownership of digital tracking data stream, from ETL to reporting/analysis/models
-  * Python (SQLAlchemy, Pandas, Numpy, Matplotlib, Seaborn etc.) and SQL (Snowflake SQL) are used extensively for complex analysis
+  * Python (SQLAlchemy, Pandas, Numpy, Matplotlib, Seaborn etc.) and SQL (Snowflake SQL: ANSI SQL, cloud based and ACID compliant) are used extensively for complex analysis
   * Establishing data science platform: AWS EC2 > Ubuntu 18.04 > Nginx > JupyterHub > Python3 (conda) > REST API (production)
   * Segmentation model (WIP)
   * Sentiment model (WIP)

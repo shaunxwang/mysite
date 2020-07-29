@@ -32,6 +32,9 @@ interests:
 
 education:
   courses:
+  - course: SnowPro Core Certification
+    institution: Snowflake
+    year: 2020
   - course: Master of Applied Statistics
     institution: Macquarie University
     year: 2018
