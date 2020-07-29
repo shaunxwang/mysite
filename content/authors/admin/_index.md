@@ -1,6 +1,6 @@
 ---
 # Display name
-title: Shaun Wang
+title: Shaun(Xuan) Wang
 
 # Username (this should match the folder name)
 authors:
