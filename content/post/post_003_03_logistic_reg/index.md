@@ -151,9 +151,13 @@ $\displaystyle \text{Hence, } \dfrac{dL}{dz} = (\hat{y}-y)$
 
 $\displaystyle w_{new} = w_{old} - \alpha \cdot \dfrac{dL}{dw}$
 
-$\displaystyle  \text{Similarly,} \\
-b_{new} = b_{old} - \alpha \cdot \dfrac{dL}{db} \\
-\text{Where, } \dfrac{dL}{db} = \hat{y}-y$
+Similarly,
+
+$\displaystyle b_{new} = b_{old} - \alpha \cdot \dfrac{dL}{db}$
+
+Where,
+
+$\displaystyle \dfrac{dL}{db} = \hat{y}-y$
 
 ### Data
 
