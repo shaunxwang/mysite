@@ -199,10 +199,10 @@ print()
 print(f'And, {X_train.shape[1]} features')
 ```
 
-We have 398 data points in the training set
+We have 398 data points in the training set<br>
 And, 398 labels in the training set
 
-We have 171 data points in the training set
+We have 171 data points in the training set<br>
 And, 171 labels in the training set
 
 And, 30 features
