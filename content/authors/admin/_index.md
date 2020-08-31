@@ -10,12 +10,12 @@ authors:
 superuser: true
 
 # Role/position
-role: Data Scientist
+role: Data Analyst
 
 # Organizations/Affiliations
 organizations:
-- name: John Paul (Accor Group)
-- url: https://group.accor.com/en/brands/business-accelerators/john-paul
+- name: Woolworths Group
+- url: https://www.woolworthsgroup.com.au/
 
 # Short bio (displayed in user profile at end of posts)
 bio: A commercially astute and technically equipped miner, interpreter and modeller of large data.

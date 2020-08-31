@@ -18,12 +18,21 @@ date_format = "Jan 2006"
 #   Leave `date_end` empty if it's your current employer.
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 [[experience]]
+  title = "Data Analyst"
+  company = "Woolworths Group"
+  company_url = "https://www.woolworthsgroup.com.au/"
+  location = "Sydney | Australia"
+  date_start = "2019-10-01"
+  date_end = "2019-09-01"
+  description = "Responsible for investigating business situations, identifying options for improvement and defining requirements to deliver business improvements. Identify opportunities for improvement through analysis, insights and development of commercial and operational solutions."
+
+[[experience]]
   title = "Data Scientist"
   company = "John Paul (Accor Group)"
   company_url = "https://group.accor.com/en/brands/business-accelerators/john-paul"
   location = "Sydney | Australia"
   date_start = "2019-10-01"
-  date_end = ""
+  date_end = "2019-08-31"
   description = """Use Python and SQL for complex analysis and machine learning projects on large datasets.
   
   * End-to-end ownership of digital tracking data stream, from ETL to reporting/analysis/models
