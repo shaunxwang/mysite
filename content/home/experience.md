@@ -22,8 +22,8 @@ date_format = "Jan 2006"
   company = "Woolworths Group"
   company_url = "https://www.woolworthsgroup.com.au/"
   location = "Sydney | Australia"
-  date_start = "2019-10-01"
-  date_end = "2019-09-01"
+  date_start = "2020-09-01"
+  date_end = ""
   description = "Responsible for investigating business situations, identifying options for improvement and defining requirements to deliver business improvements. Identify opportunities for improvement through analysis, insights and development of commercial and operational solutions."
 
 [[experience]]
