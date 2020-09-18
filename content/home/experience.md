@@ -38,8 +38,8 @@ date_format = "Jan 2006"
   * End-to-end ownership of digital tracking data stream, from ETL to reporting/analysis/models
   * Python (SQLAlchemy, Pandas, Numpy, Matplotlib, Seaborn etc.) and SQL (Snowflake SQL: ANSI SQL, cloud based and ACID compliant) are used extensively for complex analysis
   * Establishing data science platform: AWS EC2 > Ubuntu 18.04 > Nginx > JupyterHub > Python3 (conda) > REST API (production)
-  * Segmentation model (WIP)
-  * Sentiment model (WIP)
+  * Segmentation model
+  * Sentiment model
   * Build various Python functions and modules to improve workflow of the data team
   """
 
