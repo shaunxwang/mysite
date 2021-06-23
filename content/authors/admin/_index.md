@@ -10,7 +10,7 @@ authors:
 superuser: true
 
 # Role/position
-role: Data Analyst
+role: Senior Insight/Data Analyst
 
 # Organizations/Affiliations
 organizations:
